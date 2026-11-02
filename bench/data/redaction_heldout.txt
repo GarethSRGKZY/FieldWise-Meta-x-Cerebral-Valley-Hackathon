@@ -1,0 +1,11 @@
+# Held-out redaction test. Write it WITHOUT looking at fieldwise/redact.py or redaction_cases.jsonl.
+# One farmer message per line, the way people really type (lowercase, typos, no punctuation are fine).
+#   [NAME: ...]  [PHONE: ...]  [EMAIL: ...]  [ID: ...]  [GPS: ...]  [PLACE: ...]  [ADDRESS: ...]
+#       = a personal detail that must NOT reach the cloud (write it exactly as it appears)
+#   {word} = a farming word that must survive (crop, pest, disease, dose)
+# Format example (this line is a comment and isn't counted):
+#   [NAME: ama] here from [PLACE: Nkoranza], my {maize} has {fall armyworm}, call [PHONE: 024 456 7890]
+# Aim for ~20 messages: some with several details, some with none, and some with name-like
+# farming words such as {Fall Armyworm} or {Mosaic} that must survive.
+# Then run:  python bench\redaction_eval.py --cases bench\data\redaction_heldout.txt --out bench\results\redaction_heldout.md
+

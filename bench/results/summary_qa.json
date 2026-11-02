@@ -1,0 +1,261 @@
+{
+  "task": "qa",
+  "threshold_chosen_on_dev": 0.9,
+  "threshold_rule": "most on-device threshold within 2.0 accuracy points of best dev accuracy",
+  "dev": {
+    "n": 45,
+    "dropped": {
+      "local_error": 0,
+      "missing_cloud": 0
+    }
+  },
+  "test": {
+    "n": 87,
+    "dropped": {
+      "local_error": 0,
+      "missing_cloud": 0
+    }
+  },
+  "glimmer_only": {
+    "n": 87,
+    "correct": 73,
+    "accuracy": 0.8390804597701149,
+    "ci95": [
+      0.747827723662026,
+      0.9016544519051152
+    ],
+    "latency_mean_s": 22.296142376022985,
+    "latency_median_s": 21.606479676000163,
+    "latency_p90_s": 31.62145871000066,
+    "cost_per_query_usd": 0.0
+  },
+  "spark_only": {
+    "n": 87,
+    "correct": 69,
+    "accuracy": 0.7931034482758621,
+    "ci95": [
+      0.696489313921971,
+      0.8649274819072528
+    ],
+    "latency_mean_s": 5.758473394252794,
+    "latency_median_s": 5.398329899995588,
+    "latency_p90_s": 8.549543040001302,
+    "cost_per_query_usd": 0.0070152068965517265
+  },
+  "routed": {
+    "n": 87,
+    "correct": 72,
+    "accuracy": 0.8275862068965517,
+    "ci95": [
+      0.7348278122915763,
+      0.8926380183410854
+    ],
+    "latency_mean_s": 25.40988831050512,
+    "latency_median_s": 23.54241800300042,
+    "latency_p90_s": 35.030961753602064,
+    "cost_per_query_usd": 0.003643117241379311,
+    "on_device_share": 0.45977011494252873,
+    "cloud_failures": 0
+  },
+  "confidence_quality_test": {
+    "auroc": 0.6320939334637965,
+    "ece_10bin": 0.15965258210555502,
+    "source_counts": {
+      "logprobs": 87
+    }
+  },
+  "abstentions_test": {
+    "glimmer": 22,
+    "spark": 25
+  },
+  "manual_grades_applied": 0,
+  "spark_content_filter_blocks": {
+    "dev": [
+      "q-c19",
+      "q-m13",
+      "q-m34",
+      "q-m58",
+      "q-o01",
+      "q-o13",
+      "q-o16"
+    ],
+    "test": [
+      "q-c15",
+      "q-c18",
+      "q-m09",
+      "q-m21",
+      "q-m54",
+      "q-m63",
+      "q-o09",
+      "q-o15",
+      "q-o18"
+    ],
+    "scored_as": "no answer: the app shows the extension-officer referral (images: 'Unsure')"
+  },
+  "notes": [
+    "Routed results are replayed per item from independent Glimmer and Spark runs.",
+    "Cost per query counts Meta Model API spend only (Spark tokens at Standard-mode prices).",
+    "Latency for routed = Glimmer latency + Spark latency when escalated."
+  ],
+  "qa_breakdown_test": {
+    "glimmer": {
+      "answerable": {
+        "n": 75,
+        "k": 61,
+        "rate": 0.8133333333333334,
+        "ci95": [
+          0.7107120474561753,
+          0.8854199437768794
+        ]
+      },
+      "out_of_scope_declined": {
+        "n": 12,
+        "k": 12,
+        "rate": 1.0,
+        "ci95": [
+          0.7574992425007574,
+          1.0
+        ]
+      },
+      "answerable_when_retrieval_found_facts": {
+        "n": 64,
+        "k": 61,
+        "rate": 0.953125,
+        "ci95": [
+          0.8710013921145747,
+          0.9839312745678148
+        ]
+      },
+      "answerable_when_retrieval_missed_facts": {
+        "n": 11,
+        "k": 0,
+        "rate": 0.0,
+        "ci95": [
+          2.7755575615628914e-17,
+          0.2588400172488141
+        ]
+      },
+      "answers_with_quantity_removed_by_safety": 1
+    },
+    "spark": {
+      "answerable": {
+        "n": 75,
+        "k": 57,
+        "rate": 0.76,
+        "ci95": [
+          0.6522102034171385,
+          0.8424525127124175
+        ]
+      },
+      "out_of_scope_declined": {
+        "n": 12,
+        "k": 12,
+        "rate": 1.0,
+        "ci95": [
+          0.7574992425007574,
+          1.0
+        ]
+      },
+      "answerable_when_retrieval_found_facts": {
+        "n": 64,
+        "k": 57,
+        "rate": 0.890625,
+        "ci95": [
+          0.7910113670806147,
+          0.9459995524731695
+        ]
+      },
+      "answerable_when_retrieval_missed_facts": {
+        "n": 11,
+        "k": 0,
+        "rate": 0.0,
+        "ci95": [
+          2.7755575615628914e-17,
+          0.2588400172488141
+        ]
+      },
+      "answers_with_quantity_removed_by_safety": 1
+    },
+    "routed": {
+      "answerable": {
+        "n": 75,
+        "k": 60,
+        "rate": 0.8,
+        "ci95": [
+          0.6958850544883829,
+          0.8748796179687971
+        ]
+      },
+      "out_of_scope_declined": {
+        "n": 12,
+        "k": 12,
+        "rate": 1.0,
+        "ci95": [
+          0.7574992425007574,
+          1.0
+        ]
+      },
+      "answerable_when_retrieval_found_facts": {
+        "n": 64,
+        "k": 60,
+        "rate": 0.9375,
+        "ci95": [
+          0.8500230335750312,
+          0.9754291963252071
+        ]
+      },
+      "answerable_when_retrieval_missed_facts": {
+        "n": 11,
+        "k": 0,
+        "rate": 0.0,
+        "ci95": [
+          2.7755575615628914e-17,
+          0.2588400172488141
+        ]
+      },
+      "answers_with_quantity_removed_by_safety": 0
+    },
+    "retrieval_fact_hit": {
+      "n": 75,
+      "k": 64,
+      "rate": 0.8533333333333334,
+      "ci95": [
+        0.7561502569307123,
+        0.9160836906299664
+      ]
+    },
+    "spark_blocked": {
+      "answerable": 6,
+      "out_of_scope": 3,
+      "ids": [
+        "q-c15",
+        "q-c18",
+        "q-m09",
+        "q-m21",
+        "q-m54",
+        "q-m63",
+        "q-o09",
+        "q-o15",
+        "q-o18"
+      ],
+      "accuracy_on_unblocked": {
+        "n": 78,
+        "k": 66,
+        "rate": 0.8461538461538461,
+        "ci95": [
+          0.7500653094405396,
+          0.9097458379466081
+        ]
+      },
+      "accuracy_on_unblocked_answerable": {
+        "n": 69,
+        "k": 57,
+        "rate": 0.8260869565217391,
+        "ci95": [
+          0.7201615375755637,
+          0.89761731406965
+        ]
+      }
+    }
+  }
+}

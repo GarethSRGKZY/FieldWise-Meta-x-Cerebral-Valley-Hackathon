@@ -1,0 +1,92 @@
+{
+  "objective": "severity",
+  "split": "val",
+  "n": 12,
+  "leaf_phrase": "leaf",
+  "leaf_found": 11,
+  "best": {
+    "hue_min": 85,
+    "sat_min": 0.3,
+    "mean_iou": 0.3830914018737413,
+    "median_iou": 0.28837889411195183,
+    "median_severity_error_pts": 11.876068795821276,
+    "mean_signed_severity_error_pts": 8.90026600464623
+  },
+  "top5": [
+    {
+      "hue_min": 85,
+      "sat_min": 0.3,
+      "mean_iou": 0.3830914018737413,
+      "median_iou": 0.28837889411195183,
+      "median_severity_error_pts": 11.876068795821276,
+      "mean_signed_severity_error_pts": 8.90026600464623
+    },
+    {
+      "hue_min": 90,
+      "sat_min": 0.15,
+      "mean_iou": 0.37083780975975683,
+      "median_iou": 0.3313817835160513,
+      "median_severity_error_pts": 13.691416137148384,
+      "mean_signed_severity_error_pts": -5.592490714877534
+    },
+    {
+      "hue_min": 90,
+      "sat_min": 0.1,
+      "mean_iou": 0.3547275114323842,
+      "median_iou": 0.2987136041353687,
+      "median_severity_error_pts": 14.242824663337284,
+      "mean_signed_severity_error_pts": -7.873681618003797
+    },
+    {
+      "hue_min": 80,
+      "sat_min": 0.3,
+      "mean_iou": 0.3684449380759219,
+      "median_iou": 0.28795439853839666,
+      "median_severity_error_pts": 14.666925155093056,
+      "mean_signed_severity_error_pts": 6.56177428674882
+    },
+    {
+      "hue_min": 85,
+      "sat_min": 0.15,
+      "mean_iou": 0.35360012586332923,
+      "median_iou": 0.2863830548953288,
+      "median_severity_error_pts": 15.263986319737278,
+      "mean_signed_severity_error_pts": -9.265312277617449
+    }
+  ],
+  "grid": {
+    "hues": [
+      40,
+      45,
+      50,
+      55,
+      60,
+      65,
+      70,
+      75,
+      80,
+      85,
+      90
+    ],
+    "sats": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.3,
+      0.35
+    ]
+  },
+  "sam_text_prompt_baseline": [
+    "brown patch",
+    {
+      "mean_iou": 0.0987,
+      "median_iou": 0.0,
+      "median_abs_error_pts": 24.06,
+      "zero_match": 5,
+      "n": 8
+    }
+  ],
+  "api_cost_usd": 0.0
+}

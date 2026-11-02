@@ -1,0 +1,91 @@
+{
+  "plantseg_split": "val",
+  "lesion": {
+    "leaf spot": {
+      "mean_iou": 0.0,
+      "median_iou": 0.0,
+      "median_abs_error_pts": 31.26,
+      "zero_match": 8,
+      "n": 8
+    },
+    "spot": {
+      "mean_iou": 0.0645,
+      "median_iou": 0.0066,
+      "median_abs_error_pts": 30.54,
+      "zero_match": 4,
+      "n": 8
+    },
+    "lesion": {
+      "mean_iou": 0.0703,
+      "median_iou": 0.0,
+      "median_abs_error_pts": 25.59,
+      "zero_match": 7,
+      "n": 8
+    },
+    "brown spot": {
+      "mean_iou": 0.0901,
+      "median_iou": 0.0,
+      "median_abs_error_pts": 26.69,
+      "zero_match": 5,
+      "n": 8
+    },
+    "gray spot": {
+      "mean_iou": 0.0,
+      "median_iou": 0.0,
+      "median_abs_error_pts": 31.26,
+      "zero_match": 8,
+      "n": 8
+    },
+    "disease spot": {
+      "mean_iou": 0.0597,
+      "median_iou": 0.0,
+      "median_abs_error_pts": 30.94,
+      "zero_match": 5,
+      "n": 8
+    },
+    "dead tissue": {
+      "mean_iou": 0.0,
+      "median_iou": 0.0,
+      "median_abs_error_pts": 31.26,
+      "zero_match": 8,
+      "n": 8
+    },
+    "brown patch": {
+      "mean_iou": 0.0987,
+      "median_iou": 0.0,
+      "median_abs_error_pts": 24.06,
+      "zero_match": 5,
+      "n": 8
+    }
+  },
+  "leaf": {
+    "leaf": {
+      "found_on": 6,
+      "n": 6,
+      "median_cover_pct": 57.4
+    },
+    "leaves": {
+      "found_on": 5,
+      "n": 6,
+      "median_cover_pct": 47.0
+    },
+    "{crop} leaf": {
+      "found_on": 3,
+      "n": 6,
+      "median_cover_pct": 17.0
+    },
+    "plant": {
+      "found_on": 3,
+      "n": 6,
+      "median_cover_pct": 19.1
+    },
+    "green leaf": {
+      "found_on": 6,
+      "n": 6,
+      "median_cover_pct": 57.4
+    }
+  },
+  "best_lesion": "brown patch",
+  "best_leaf": "leaf",
+  "api_cost_usd": 0.235
+}

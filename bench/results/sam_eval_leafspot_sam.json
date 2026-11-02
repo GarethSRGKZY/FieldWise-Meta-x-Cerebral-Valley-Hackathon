@@ -1,0 +1,11 @@
+{
+  "n": 15,
+  "method": "sam",
+  "phrase": "brown patch",
+  "mean_iou": 0.19437333333333334,
+  "median_iou": 0.0751,
+  "median_abs_error_pts": 15.19,
+  "p90_abs_error_pts": 61.379999999999995,
+  "zero_match_images": 6,
+  "api_cost_usd": 0.0375
+}

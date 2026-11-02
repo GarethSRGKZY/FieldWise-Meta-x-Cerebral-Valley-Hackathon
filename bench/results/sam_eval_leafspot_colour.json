@@ -1,0 +1,16 @@
+{
+  "n": 15,
+  "method": "colour",
+  "leaf_phrase": "leaf",
+  "hue_min": 90.0,
+  "sat_min": 0.35,
+  "mean_iou": 0.35607333333333335,
+  "median_iou": 0.3449,
+  "median_abs_error_pts": 21.12,
+  "p90_abs_error_pts": 49.903999999999996,
+  "zero_match_images": 1,
+  "api_cost_usd": 0.035,
+  "severity_median_abs_error_pts": 35.695,
+  "severity_p90_abs_error_pts": 66.737,
+  "severity_n": 14
+}

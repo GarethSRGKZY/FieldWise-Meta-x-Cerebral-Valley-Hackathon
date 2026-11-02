@@ -1,0 +1,24 @@
+[
+  {
+    "id": "fao-faw-ffs-2018",
+    "title": "FAO (2018). Integrated management of the Fall Armyworm on maize: a guide for Farmer Field Schools in Africa",
+    "file": "fao_faw_ffs_2018.txt",
+    "url": "https://openknowledge.fao.org/items/1a67bbe8-a4b6-437c-a21f-7af0caee5985",
+    "licence": "FAO copyright. Reuse for research, teaching and non-commercial purposes with acknowledgement of FAO (copyright page, p. iii). No Creative Commons licence.",
+    "crops": [
+      "maize"
+    ],
+    "format_note": "Text extracted from the FAO PDF with printed page numbers restored by scripts/paginate_text.py. bench/data/questions.jsonl cites these printed pages."
+  },
+  {
+    "id": "fao-cassava-ffs-2013",
+    "title": "FAO (2013). Cassava Farmer Field Schools: resource material for facilitators in sub-Saharan Africa (Plant Production and Protection Paper 218)",
+    "file": "fao_cassava_ffs_2013.txt",
+    "url": "https://www.fao.org/4/i3447e/i3447e.pdf",
+    "licence": "FAO copyright. Copying for private study, research and teaching permitted; adaptation, translation and commercial use need FAO permission. Quote passages verbatim with citation.",
+    "crops": [
+      "cassava"
+    ],
+    "format_note": "Text extracted from the FAO PDF with printed page numbers restored by scripts/paginate_text.py. bench/data/questions.jsonl cites these printed pages."
+  }
+]

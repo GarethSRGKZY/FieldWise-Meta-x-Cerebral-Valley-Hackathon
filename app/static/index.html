@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#E8E7E1">
+<meta name="color-scheme" content="light dark">
+<title>Fieldwise</title>
+<script>
+  // Apply a saved light/inverse choice before the first paint (no flash). Storage can be blocked: ignore that.
+  try { const t = localStorage.getItem("fieldwise-theme"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+<style>
+  /* No CDNs: the hub has no internet. Poppins (SIL OFL, fonts/OFL.txt) is served by the hub itself. */
+  @font-face { font-family: "Poppins"; font-weight: 400; font-display: swap; src: url("/fonts/poppins-400.woff2") format("woff2"); }
+  @font-face { font-family: "Poppins"; font-weight: 500; font-display: swap; src: url("/fonts/poppins-500.woff2") format("woff2"); }
+  @font-face { font-family: "Poppins"; font-weight: 600; font-display: swap; src: url("/fonts/poppins-600.woff2") format("woff2"); }
+  @font-face { font-family: "Poppins"; font-weight: 700; font-display: swap; src: url("/fonts/poppins-700.woff2") format("woff2"); }
+
+  /* Layout: one framed sheet; header with pill tabs; input card left, answer right (stacked on phones). */
+  :root {
+    --bg: #E8E7E1;          /* greige page */
+    --frame: #F6F6F2;       /* the sheet */
+    --frame-line: #0F5641;
+    --card: #FFFFFF;
+    --ink: #0A2C24;
+    --ink-soft: #52665F;
+    --rule: #D3DAD5;
+    --wash: #EDF2EE;
+    --forest: #0F5641;      /* primary buttons */
+    --forest-ink: #FFFFFF;
+    --night: #0A2C24;       /* dark panels */
+    --night-ink: #F1F6F2;
+    --night-soft: #A9C2B7;
+    --lime: #D4F799;
+    --lime-ink: #0A2C24;
+    --mint: #CDEDE2;
+    --mint-ink: #0F5641;
+    --accent: #1E7A57;      /* the second tone in headlines */
+    --route: #0F5641;       /* phone/hub path in the route strip */
+    --sky: #2B6CB0;         /* the cloud path */
+    --amber: #B7791F;
+    --amber-wash: #FBF2E2;
+    --lesion: #C2412D;
+    --sans: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+    --tap: 48px;
+    --r-lg: 28px; --r-md: 20px; --r-sm: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #04130F; --frame: #07211B; --frame-line: #1D4A3F; --card: #0B2E26;
+      --ink: #EAF2EC; --ink-soft: #A8BDB3; --rule: #21493F; --wash: #133A31;
+      --forest: #D4F799; --forest-ink: #0A2C24; --night: #0F3D33; --night-ink: #EAF2EC; --night-soft: #A8C4B8;
+      --mint: #15453A; --mint-ink: #CDEDE2; --accent: #D4F799; --route: #D4F799; --sky: #84B6EA;
+      --amber: #E3AC4F; --amber-wash: #2F2814; --lesion: #F2907C; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #04130F; --frame: #07211B; --frame-line: #1D4A3F; --card: #0B2E26;
+    --ink: #EAF2EC; --ink-soft: #A8BDB3; --rule: #21493F; --wash: #133A31;
+    --forest: #D4F799; --forest-ink: #0A2C24; --night: #0F3D33; --night-ink: #EAF2EC; --night-soft: #A8C4B8;
+    --mint: #15453A; --mint-ink: #CDEDE2; --accent: #D4F799; --route: #D4F799; --sky: #84B6EA;
+    --amber: #E3AC4F; --amber-wash: #2F2814; --lesion: #F2907C; color-scheme: dark;
+  }
+  :root[data-theme="light"] { color-scheme: light; }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; background: var(--bg); }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.6 var(--sans);
+         padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left)); }
+  h1, h2, h3 { font-weight: 600; letter-spacing: -0.02em; text-wrap: balance; margin: 0; }
+  p { margin: 0 0 12px; }
+  button, select, textarea, input { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .hidden { display: none !important; }
+
+  .frame { max-width: 1180px; margin: 0 auto; background: var(--frame); border: 2px solid var(--frame-line);
+           border-radius: var(--r-lg); padding: clamp(16px, 3vw, 36px); }
+
+  /* ---------- header ---------- */
+  .top { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-weight: 700; font-size: 1.25rem; letter-spacing: -0.02em; }
+  .brand .mark { width: 40px; height: 40px; border-radius: 12px; background: var(--forest-mark, #0F5641); display: grid; place-items: center; flex: none; }
+  .brand .mark svg { width: 24px; height: 24px; }
+  .brand .wise { color: var(--accent); }
+  .modes { display: flex; gap: 4px; padding: 5px; background: var(--card); border-radius: 999px; box-shadow: 0 1px 0 var(--rule), 0 0 0 1px var(--rule) inset; }
+  .modes button { min-height: 42px; padding: 0 18px; border: 0; border-radius: 999px; background: transparent; font-weight: 500; cursor: pointer; white-space: nowrap; color: var(--ink); }
+  .modes button[aria-selected="true"] { background: var(--lime); color: var(--lime-ink); }
+  .tools { display: flex; justify-content: flex-end; align-items: center; gap: 8px; }
+  .net { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 0; border-radius: 999px;
+         background: var(--night); color: var(--night-ink); cursor: pointer; font-weight: 500; white-space: nowrap; }
+  .net .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 0 3px rgba(0,0,0,.12); }
+  .net[data-online="true"] .dot { background: #8BE07A; }
+  .theme { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--rule); background: var(--card); cursor: pointer; display: grid; place-items: center; flex: none; }
+  .theme svg { width: 20px; height: 20px; }
+
+  /* ---------- hero ---------- */
+  .hero { margin: clamp(24px, 5vw, 56px) 0 clamp(20px, 3vw, 32px); max-width: 780px; }
+  .hero h1 { font-size: clamp(1.75rem, 1.15rem + 2.4vw, 2.9rem); line-height: 1.12; font-weight: 500; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .lede { margin-top: 14px; color: var(--ink-soft); font-size: clamp(.98rem, .9rem + .3vw, 1.08rem); max-width: 62ch; }
+
+  /* ---------- two columns ---------- */
+  .layout { display: grid; gap: 20px; align-items: start; }
+  @media (min-width: 960px) { .layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 28px; } }
+  .card { background: var(--card); border: 1.5px solid var(--rule); border-radius: var(--r-lg); padding: clamp(18px, 2.5vw, 28px); min-width: 0; }
+
+  label.field { display: block; font-weight: 600; margin-bottom: 8px; }
+  .row { margin-bottom: 18px; }
+  .crop-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .crop-row label { margin: 0; }
+  select { min-height: 44px; padding: 0 40px 0 18px; border: 0; border-radius: 999px; background: var(--mint); color: var(--mint-ink); font-weight: 600; cursor: pointer;
+           appearance: none; -webkit-appearance: none;
+           background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+           background-position: calc(100% - 22px) 52%, calc(100% - 16px) 52%; background-size: 6px 6px; background-repeat: no-repeat; }
+  textarea { width: 100%; min-height: 128px; resize: vertical; padding: 14px 16px; border: 1.5px solid var(--rule); border-radius: var(--r-sm); background: var(--frame); color: var(--ink); line-height: 1.5; }
+  textarea::placeholder { color: var(--ink-soft); opacity: .8; }
+
+  .primary { width: 100%; min-height: 54px; border: 0; border-radius: 999px; background: var(--forest); color: var(--forest-ink);
+             font-weight: 600; font-size: 1.02rem; cursor: pointer; transition: transform .12s ease; }
+  .primary:active { transform: scale(.99); }
+  .primary[disabled] { opacity: .5; cursor: not-allowed; }
+  .secondary { min-height: 44px; padding: 0 20px; border: 0; border-radius: 999px; background: var(--mint); color: var(--mint-ink); font-weight: 600; cursor: pointer; }
+  .secondary[disabled] { opacity: .5; cursor: not-allowed; }
+
+  .photo-drop { position: relative; display: grid; place-items: center; min-height: 190px; border: 2px dashed var(--accent);
+                border-radius: var(--r-md); background: var(--wash); cursor: pointer; text-align: center; padding: 14px; color: var(--ink-soft); font-weight: 500; }
+  .photo-drop img { max-width: 100%; max-height: 300px; border-radius: var(--r-sm); }
+  .photo-drop input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+
+  .working { display: none; align-items: center; gap: 12px; margin: 16px 0 0; color: var(--ink-soft); font-size: .95rem; }
+  .working.on { display: flex; }
+  .working .bar { flex: 1; height: 6px; background: var(--wash); overflow: hidden; border-radius: 3px; }
+  .working .bar::after { content: ""; display: block; width: 40%; height: 100%; background: var(--route); border-radius: 3px; animation: slide 1.4s ease-in-out infinite; }
+  @keyframes slide { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+  @media (prefers-reduced-motion: reduce) { .working .bar::after { animation: none; width: 100%; opacity: .5; } }
+  .error { color: var(--lesion); font-weight: 600; margin: 14px 0 0; }
+
+  /* ---------- "how it works" panel (before the first answer) ---------- */
+  .intro { background: var(--night); color: var(--night-ink); border-radius: var(--r-lg); padding: clamp(22px, 3vw, 36px); }
+  .intro h2 { font-size: clamp(1.45rem, 1.1rem + 1.2vw, 2rem); line-height: 1.15; margin-bottom: 22px; }
+  .intro h2 span { color: var(--lime); display: block; }
+  .steps { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 16px; }
+  .steps li { display: grid; grid-template-columns: 36px 1fr; gap: 14px; align-items: start; }
+  .steps .n { width: 36px; height: 36px; border-radius: 50%; background: var(--lime); color: var(--lime-ink); display: grid; place-items: center; font-weight: 700; }
+  .steps b { display: block; font-weight: 600; }
+  .steps span { color: var(--night-soft); font-size: .93rem; }
+  .promise { background: var(--lime); color: var(--lime-ink); border-radius: 26px; padding: 18px 20px; font-size: .95rem; }
+  .promise b { display: block; font-size: 1.05rem; margin-bottom: 4px; }
+
+  /* ---------- result ---------- */
+  .result { animation: rise .25s ease-out; }
+  @keyframes rise { from { opacity: .4; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .result { animation: none; } }
+  .route { display: grid; grid-template-columns: auto 1fr auto 1fr auto; align-items: start; gap: 6px; margin-bottom: 8px; }
+  .stop { display: grid; justify-items: center; gap: 2px; font-size: .78rem; color: var(--ink-soft); text-align: center; min-width: 60px; }
+  .stop .node { width: 38px; height: 38px; border-radius: 50%; border: 3px solid var(--rule); background: var(--card); display: grid; place-items: center; }
+  .stop .node svg { width: 18px; height: 18px; stroke: var(--rule); fill: none; stroke-width: 2; }
+  .stop b { color: var(--ink); font-weight: 600; }
+  .link { height: 4px; margin-top: 17px; border-radius: 2px; background: var(--rule); }
+  .route[data-route="local"] .s-phone .node, .route[data-route="local"] .s-hub .node,
+  .route[data-route="local_fallback"] .s-phone .node, .route[data-route="local_fallback"] .s-hub .node,
+  .route[data-route="queued"] .s-phone .node, .route[data-route="queued"] .s-hub .node,
+  .route[data-route="unavailable"] .s-phone .node,
+  .route[data-route="cloud"] .s-phone .node, .route[data-route="cloud"] .s-hub .node { border-color: var(--route); }
+  .route[data-route="local"] .s-phone svg, .route[data-route="local"] .s-hub svg,
+  .route[data-route="local_fallback"] .s-phone svg, .route[data-route="local_fallback"] .s-hub svg,
+  .route[data-route="queued"] .s-phone svg, .route[data-route="queued"] .s-hub svg,
+  .route[data-route="unavailable"] .s-phone svg,
+  .route[data-route="cloud"] .s-phone svg, .route[data-route="cloud"] .s-hub svg { stroke: var(--route); }
+  .route .l1 { background: var(--route); }
+  .route[data-route="cloud"] .l2 { background: var(--sky); }
+  .route[data-route="cloud"] .s-cloud .node { border-color: var(--sky); }
+  .route[data-route="cloud"] .s-cloud svg { stroke: var(--sky); }
+  .route[data-route="queued"] .l2, .route[data-route="local_fallback"] .l2, .route[data-route="unavailable"] .l2 {
+    background: repeating-linear-gradient(90deg, var(--amber) 0 8px, transparent 8px 14px); }
+  .route[data-route="queued"] .s-cloud .node, .route[data-route="local_fallback"] .s-cloud .node, .route[data-route="unavailable"] .s-cloud .node {
+    border-color: var(--amber); border-style: dashed; }
+  .route[data-route="queued"] .s-cloud svg, .route[data-route="local_fallback"] .s-cloud svg, .route[data-route="unavailable"] .s-cloud svg { stroke: var(--amber); }
+  .route[data-hub="down"] .s-hub .node { border-color: var(--rule); border-style: dashed; }
+  .route[data-hub="down"] .s-hub svg { stroke: var(--rule); }
+  .route-caption { font-size: .93rem; color: var(--ink-soft); margin-bottom: 16px; }
+  .route-caption strong { color: var(--ink); font-weight: 600; }
+  .no-conf { font-size: .88rem; color: var(--ink-soft); margin: 0 0 10px; }
+  .detail { font-size: .8rem; color: var(--ink-soft); margin: 14px 0 0; }
+  .replay { font-size: .86rem; color: var(--ink-soft); background: var(--wash); border-radius: var(--r-sm); padding: 10px 14px; margin: 0 0 14px; }
+
+  .meter { position: relative; height: 12px; border-radius: 6px; background: var(--wash); margin: 6px 0 6px; }
+  .meter .fill { position: absolute; inset: 0 auto 0 0; border-radius: 6px; background: var(--route); }
+  .meter.low .fill { background: var(--amber); }
+  .meter .tick { position: absolute; top: -5px; bottom: -5px; width: 3px; background: var(--ink); border-radius: 2px; }
+  .meter-legend { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .84rem; color: var(--ink-soft); margin-bottom: 18px; }
+
+  .answer { font-size: 1.04rem; white-space: pre-line; margin-bottom: 16px; }
+  .diag-name { font-size: clamp(1.4rem, 1.2rem + .8vw, 1.8rem); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 8px; }
+  .flags { list-style: none; padding: 0; margin: 0 0 16px; display: grid; gap: 8px; }
+  .flags:empty { display: none; }
+  .flags li { border-radius: var(--r-sm); padding: 10px 14px; background: var(--amber-wash); font-size: .92rem; border-left: 4px solid var(--amber); }
+  .flags li.privacy { background: var(--mint); color: var(--mint-ink); border-left-color: var(--route); }
+
+  .sources h3, .probs h3 { font-size: 1rem; margin: 0 0 10px; }
+  .source { background: var(--wash); border-radius: var(--r-md); padding: 14px 16px; margin-bottom: 10px; }
+  .source blockquote { margin: 0 0 6px; font-size: .95rem; line-height: 1.6; }
+  .source cite { font-style: normal; font-size: .82rem; color: var(--ink-soft); font-weight: 500; }
+
+  .probs .p { display: grid; grid-template-columns: 1fr 52px; gap: 6px 8px; align-items: center; margin-bottom: 8px; font-size: .93rem; }
+  .probs .p > span:nth-child(2) { text-align: right; font-variant-numeric: tabular-nums; }
+  .probs .p .track { grid-column: 1 / -1; height: 6px; background: var(--wash); border-radius: 3px; }
+  .probs .p .track span { display: block; height: 100%; background: var(--ink-soft); border-radius: 3px; }
+  .probs .p.top .track span { background: var(--route); }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .severity { margin-top: 12px; }
+  .severity img { width: 100%; border-radius: var(--r-md); margin: 8px 0; }
+  .severity .pct { font-size: 2.4rem; font-weight: 700; color: var(--lesion); line-height: 1; }
+
+  /* ---------- queue ---------- */
+  .queue { margin-top: 20px; background: var(--lime); color: var(--lime-ink); border-radius: 40px; padding: 22px 24px; }
+  .queue p { margin: 0 0 12px; font-weight: 500; }
+  .queue .secondary { background: var(--night); color: var(--night-ink); }
+  :root[data-theme="dark"] .queue .secondary { background: #0A2C24; color: #EAF2EC; }
+  .queue ul { margin: 12px 0 0; padding-left: 18px; font-size: .92rem; }
+
+  .foot { margin-top: 28px; padding-top: 16px; border-top: 1.5px solid var(--rule); font-size: .82rem; color: var(--ink-soft); display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: space-between; }
+  .foot b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- phones ---------- */
+  @media (max-width: 760px) {
+    body { padding: 6px; padding-top: max(6px, env(safe-area-inset-top)); }
+    .frame { border-width: 1.5px; border-radius: 22px; padding: 16px; }
+    .top { grid-template-columns: 1fr auto; row-gap: 14px; }
+    .modes { grid-column: 1 / -1; grid-row: 2; }
+    .modes button { flex: 1; padding: 0 10px; font-size: .92rem; }
+    .net { padding: 0 12px; font-size: .9rem; }
+    .hero { margin: 22px 0 18px; }
+    .card { border-radius: 22px; }
+    .intro { border-radius: 22px; }
+  }
+  @media (max-width: 380px) { .net #netText { font-size: .82rem; } .brand { font-size: 1.1rem; } }
+</style>
+</head>
+<body>
+<div class="frame">
+  <header class="top">
+    <a class="brand" href="/" aria-label="Fieldwise, home">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M5 19c0-7.5 5-12.5 14-14-1.2 9-6.2 14-14 14z" fill="#D4F799"/><path d="M5 19l8.5-8.5" stroke="#0F5641" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </span>
+      <span>Field<span class="wise">wise</span></span>
+    </a>
+    <div class="modes" role="tablist" aria-label="What do you want to do?">
+      <button type="button" role="tab" id="tabAsk" aria-selected="true" aria-controls="askPanel">Ask a question</button>
+      <button type="button" role="tab" id="tabPhoto" aria-selected="false" aria-controls="photoPanel">Check a leaf photo</button>
+    </div>
+    <div class="tools">
+      <button class="net" id="net" type="button" data-online="false" aria-live="polite">
+        <span class="dot" aria-hidden="true"></span><span id="netText">Checking…</span>
+      </button>
+      <button class="theme" id="themeBtn" type="button" aria-pressed="false" aria-label="Inverse colours" title="Inverse colours">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Crop advice that works <em>without signal</em>, straight from the extension guides.</h1>
+    <p class="lede">Muse Glimmer answers on the village hub and shows where each answer comes from. The hub removes the personal details it finds before anything goes to the cloud.</p>
+  </section>
+
+  <div class="layout">
+    <div class="col-in">
+      <div class="card">
+        <div class="row crop-row">
+          <label class="field" for="crop">Crop</label>
+          <select id="crop"></select>
+        </div>
+
+        <section id="askPanel" role="tabpanel" aria-labelledby="tabAsk">
+          <div class="row">
+            <label class="field" for="question">Your question</label>
+            <textarea id="question" placeholder="Example: There are holes and sawdust in the middle of my maize plants. What is it and what should I do?"></textarea>
+          </div>
+          <button class="primary" id="askBtn" type="button">Ask Fieldwise</button>
+        </section>
+
+        <section id="photoPanel" role="tabpanel" aria-labelledby="tabPhoto" class="hidden">
+          <div class="row">
+            <label class="photo-drop" id="drop">
+              <span id="dropText">Tap to take or choose a photo of one leaf</span>
+              <img id="preview" class="hidden" alt="Leaf photo to check">
+              <input id="photo" type="file" accept="image/*" capture="environment">
+            </label>
+          </div>
+          <div class="row">
+            <label class="field" for="note">Anything else? (optional)</label>
+            <textarea id="note" style="min-height:72px" placeholder="Example: started after the rains, spreading fast"></textarea>
+          </div>
+          <button class="primary" id="photoBtn" type="button" disabled>Check this photo</button>
+        </section>
+
+        <div class="working" id="working" role="status"><span id="workingText">Thinking on the hub…</span><div class="bar"></div></div>
+        <p class="error hidden" id="error" role="alert"></p>
+      </div>
+
+      <section class="queue hidden" id="queue">
+        <p id="queueText"></p>
+        <button class="secondary" id="flushBtn" type="button">Send queued questions now</button>
+        <ul id="queueDone"></ul>
+      </section>
+    </div>
+
+    <div class="col-out">
+      <aside class="intro" id="intro" aria-label="How Fieldwise answers">
+        <h2>Answered on the hub. <span>The cloud only when unsure.</span></h2>
+        <ol class="steps">
+          <li><span class="n">1</span><div><b>Your phone</b><span>Ask in the browser over the hub's Wi-Fi. No mobile data needed.</span></div></li>
+          <li><span class="n">2</span><div><b>Muse Glimmer on the hub</b><span>Answers from the FAO extension guides, with its sources and how sure it is.</span></div></li>
+          <li><span class="n">3</span><div><b>Muse Spark in the cloud</b><span>Only when the hub is unsure, with personal details removed first. No signal? The question waits in a queue.</span></div></li>
+        </ol>
+        <div class="promise"><b>No guessing about chemicals.</b>Treatment advice comes only from the guides, with a safety reminder. If the guides don't cover it, Fieldwise says so and points you to your extension officer.</div>
+      </aside>
+      <section class="result card hidden" id="result" aria-live="polite"></section>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <span>Fieldwise · <b>Muse Glimmer</b> on the hub · <b>Muse Spark</b> and <b>SAM 3.1</b> in the cloud</span>
+    <span>Advice from FAO extension guides, cited page by page</span>
+  </footer>
+</div>
+
+<template id="icons">
+  <svg data-i="phone" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>
+  <svg data-i="hub" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="1"/><path d="M8 21h8M12 17v4"/></svg>
+  <svg data-i="cloud" viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .5-8 6 6 0 0 0-11.4 1.5A3.3 3.3 0 0 0 7 18z"/></svg>
+</template>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const state = { status: null, photo: null, lastDx: null };
+const icon = (name) => $("icons").content.querySelector(`svg[data-i="${name}"]`).outerHTML;
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const pct = (x) => `${Math.round((x || 0) * 100)}%`;
+const kinds = { NAME: "name", PHONE: "phone number", EMAIL: "email", ID: "ID number", GPS: "GPS position", LOCATION: "place name", ADDRESS: "address", PHOTO_GPS: "photo GPS tag" };
+
+/* ---------- inverse mode: follows the device until toggled, then remembered on this device ---------- */
+const darkQuery = window.matchMedia ? matchMedia("(prefers-color-scheme: dark)") : null;
+function currentTheme() {
+  return document.documentElement.dataset.theme || (darkQuery && darkQuery.matches ? "dark" : "light");
+}
+function showTheme() {
+  const dark = currentTheme() === "dark";
+  $("themeBtn").setAttribute("aria-pressed", String(dark));
+  $("themeBtn").title = dark ? "Back to light colours" : "Inverse colours";
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = dark ? "#04130F" : "#E8E7E1";
+}
+$("themeBtn").onclick = () => {
+  const next = currentTheme() === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem("fieldwise-theme", next); } catch (e) {}
+  showTheme();
+};
+if (darkQuery && darkQuery.addEventListener) darkQuery.addEventListener("change", showTheme);
+showTheme();
+
+async function api(path, opts = {}) {
+  const r = await fetch(path, opts);
+  const body = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(body.detail || `The hub answered with error ${r.status}.`);
+  return body;
+}
+
+async function refreshStatus() {
+  try {
+    const s = await api("/api/status");
+    state.status = s;
+    $("net").dataset.online = s.online;
+    $("netText").textContent = s.online ? "Online" : "Offline";
+    $("net").setAttribute("aria-label", `${s.online ? "Online" : "Offline"}. Tap to ${s.forced_offline ? "allow" : "block"} the cloud.`);
+    if (!$("crop").options.length) {
+      $("crop").innerHTML = s.crops.map((c) => `<option value="${c}">${c[0].toUpperCase() + c.slice(1)}</option>`).join("");
+    }
+    const n = s.queue_pending;
+    $("queue").classList.toggle("hidden", n === 0);
+    $("queueText").textContent = `${n} ${n === 1 ? "question is" : "questions are"} waiting for a second opinion from Muse Spark.`;
+    $("flushBtn").disabled = !s.online;
+    const downMsg = `Muse Glimmer isn't available on the hub: ${s.glimmer_detail || "not running."} Until then, questions go to Muse Spark when online, or wait in the queue when offline.`;
+    if (!s.glimmer_up) { showError(downMsg); state.downMsg = downMsg; }
+    else if (state.downMsg && $("error").textContent === state.downMsg) { showError(""); state.downMsg = null; }
+  } catch (e) {
+    $("netText").textContent = "Hub not reachable";
+  }
+}
+
+function showError(msg) { $("error").textContent = msg; $("error").classList.toggle("hidden", !msg); }
+function busy(on, text) {
+  $("working").classList.toggle("on", on);
+  if (text) $("workingText").textContent = text;
+  $("askBtn").disabled = on;
+  $("photoBtn").disabled = on || !state.photo;
+}
+function showResult() {
+  $("intro").classList.add("hidden");
+  $("result").classList.remove("hidden");
+  if (window.matchMedia && matchMedia("(max-width: 959px)").matches) {
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    $("result").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  }
+}
+
+function routeStrip(r) {
+  const route = r.route, hubDown = r.local_available === false;
+  const caption = r.note ? esc(r.note) : {
+    local: `Answered on the hub by <strong>Muse Glimmer</strong>. Nothing left the village network.`,
+    cloud: `Low confidence on the hub, so a redacted copy went to <strong>Muse Spark</strong> in the cloud.`,
+    queued: `Low confidence and no connection. A redacted copy is <strong>queued for Muse Spark</strong>.`,
+    local_fallback: `Low confidence on the hub and <strong>Muse Spark</strong> couldn't be reached, so this is Muse Glimmer's tentative answer. A redacted copy is queued for Spark.`,
+    unavailable: `No model could answer right now. A redacted copy is queued for Muse Spark.`,
+  }[route] || esc(r.answered_by);
+  return `
+    <div class="route" data-route="${route}" data-hub="${hubDown ? "down" : "up"}" aria-hidden="true">
+      <div class="stop s-phone"><div class="node">${icon("phone")}</div><b>Phone</b>Browser</div>
+      <div class="link l1"></div>
+      <div class="stop s-hub"><div class="node">${icon("hub")}</div><b>Hub</b>${hubDown ? "No answer" : "Glimmer"}</div>
+      <div class="link l2"></div>
+      <div class="stop s-cloud"><div class="node">${icon("cloud")}</div><b>Cloud</b>Spark</div>
+    </div>
+    <p class="route-caption">${caption}</p>`;
+}
+
+function meter(conf, threshold) {
+  if (conf == null) return `<p class="no-conf">No on-device confidence: Muse Glimmer didn't run.</p>`;
+  const low = conf < threshold;
+  return `
+    <div class="meter ${low ? "low" : ""}" role="img" aria-label="On-device confidence ${pct(conf)}. Threshold ${pct(threshold)}.">
+      <div class="fill" style="width:${pct(conf)}"></div>
+      <div class="tick" style="left:calc(${pct(threshold)} - 1px)"></div>
+    </div>
+    <div class="meter-legend"><span>On-device confidence ${Math.floor(conf * 100)}%</span><span>Ask the cloud below ${pct(threshold)}</span></div>`;
+}
+
+function cloudDetail(r) {
+  const parts = [];
+  if (r.local_available === false && r.local && r.local.error) parts.push(`Glimmer: ${r.local.error}`);
+  if (r.cloud && r.cloud.error) parts.push(`Spark: ${r.cloud.error}`);
+  return parts.length ? `<p class="detail">For the hub operator: ${esc(parts.join(" · "))}</p>` : "";
+}
+
+function replayLine(r) {
+  const p = r.replayed;
+  if (!p) return "";
+  const t = typeof p.latency_s === "number" ? ` It took ${p.latency_s.toFixed(1)} s there.` : "";
+  return `<p class="replay">Demo replay: this is Muse Glimmer's real output from our ${esc(p.source)}.${t} This laptop is too small to run the 30B model live; everything else here runs live on the hub.</p>`;
+}
+
+function privacyFlags(red) {
+  const parts = Object.entries(red || {}).map(([k, n]) => `${n} ${kinds[k] || k.toLowerCase()}${n > 1 ? "s" : ""}`);
+  return parts.length ? `<li class="privacy">Removed before anything left the hub: ${esc(parts.join(", "))}.</li>` : "";
+}
+
+function renderAsk(r) {
+  const flags = (r.safety_flags || []).map((f) => `<li>${esc(f)}</li>`).join("") + privacyFlags(r.redactions);
+  const sources = (r.sources || []).map((s) => `
+    <div class="source">
+      <blockquote>${esc(s.snippet)}</blockquote>
+      <cite>[S${s.n}] ${esc(s.title)}${s.page ? `, page ${s.page}` : ""}${s.licence ? `. Licence: ${esc(s.licence)}` : ""}</cite>
+    </div>`).join("");
+  $("result").innerHTML = routeStrip(r) + replayLine(r)
+    + meter(r.confidence, state.status?.qa_threshold ?? 0.7)
+    + `<div class="answer">${esc(r.answer)}</div>`
+    + (flags ? `<ul class="flags">${flags}</ul>` : "")
+    + (sources ? `<div class="sources"><h3>From the extension guides</h3>${sources}</div>` : "")
+    + cloudDetail(r);
+  showResult();
+}
+
+function renderDx(r) {
+  state.lastDx = r;
+  const probs = Object.entries(r.probabilities || {}).sort((a, b) => b[1] - a[1]).slice(0, 3);
+  const probHtml = probs.map(([k, p], i) => `
+    <div class="p ${i === 0 ? "top" : ""}"><span>${esc(k === "unsure" ? "Unsure" : (n => n[0].toUpperCase() + n.slice(1))(k.split("/")[1].replaceAll("_", " ")))}</span><span>${pct(p)}</span>
+    <div class="track"><span style="width:${pct(p)}"></span></div></div>`).join("");
+  const healthy = r.label && r.label.endsWith("/healthy");
+  const tentative = r.local_available !== false && (r.route === "queued" || r.route === "local_fallback");
+  $("result").innerHTML = routeStrip(r) + replayLine(r)
+    + meter(r.confidence, state.status?.dx_threshold ?? 0.7)
+    + `<div class="diag-name">${esc(r.label_name)}</div>`
+    + (tentative ? `<p>This is a tentative result. A second opinion is queued.</p>` : "")
+    + `<ul class="flags">${privacyFlags(r.redactions)}</ul>`
+    + (probHtml ? `<div class="probs"><h3>What the hub model considered</h3>${probHtml}</div>` : "")
+    + (r.label && !healthy ? `<div class="actions"><button class="secondary" id="adviceBtn" type="button">What should I do about it?</button>
+        <button class="secondary" id="sevBtn" type="button">Mark the damaged areas</button></div><div class="severity" id="sevOut"></div>` : "")
+    + cloudDetail(r);
+  showResult();
+  $("adviceBtn")?.addEventListener("click", () => {
+    const name = r.label_name;
+    $("question").value = `How do I manage ${name.toLowerCase()} on ${$("crop").value}?`;
+    selectTab("ask");
+    doAsk();
+  });
+  $("sevBtn")?.addEventListener("click", doSeverity);
+}
+
+async function doAsk() {
+  const q = $("question").value.trim();
+  if (!q) { showError("Type a question first."); return; }
+  showError(""); busy(true, "Searching the guides and thinking on the hub…");
+  try {
+    renderAsk(await api("/api/ask", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question: q, crop: $("crop").value }) }));
+  } catch (e) { showError(e.message); }
+  busy(false); refreshStatus();
+}
+
+async function doDiagnose() {
+  if (!state.photo) return;
+  showError(""); busy(true, "Looking at the photo on the hub…");
+  const fd = new FormData();
+  fd.append("image", state.photo); fd.append("crop", $("crop").value); fd.append("note", $("note").value);
+  try { renderDx(await api("/api/diagnose", { method: "POST", body: fd })); } catch (e) { showError(e.message); }
+  busy(false); refreshStatus();
+}
+
+async function doSeverity() {
+  const out = $("sevOut");
+  out.innerHTML = `<p>Outlining the leaf with SAM 3.1…</p>`;
+  const fd = new FormData();
+  fd.append("image", state.photo); fd.append("label", state.lastDx?.label || "");
+  try {
+    const s = await api("/api/severity", { method: "POST", body: fd });
+    if (!s.available) { out.innerHTML = `<p>${esc(s.note)}</p>`; return; }
+    const marked = "SAM 3.1 outlined the leaf (dimmed outside it); red marks the parts that aren't healthy green.";
+    let head;
+    if (s.percent_affected == null) head = `<p>${esc(s.note)}</p>`;
+    else if (s.show_percent) head = `<div class="pct">${Math.round(s.percent_affected)}%</div><p>of the leaf looks damaged`
+      + (s.error_pts ? ` (a rough estimate: on our test photos it was off by about ${Math.round(s.error_pts)} points)` : "") + `. ${marked}</p>`;
+    else head = `<p>${marked} Look closely at the red areas. We don't show a percentage because it wasn't reliable in our tests.</p>`;
+    out.innerHTML = head
+      + (s.overlay_png_b64 ? `<img alt="Leaf with off-colour areas marked in red" src="data:image/png;base64,${s.overlay_png_b64}">` : "")
+      + `<p style="font-size:.85rem;color:var(--ink-soft)">A visual aid, not a lab measurement. If in doubt, show the plant to your extension officer.</p>`;
+  } catch (e) { out.innerHTML = `<p class="error">${esc(e.message)}</p>`; }
+}
+
+function selectTab(which) {
+  const ask = which === "ask";
+  $("tabAsk").setAttribute("aria-selected", ask); $("tabPhoto").setAttribute("aria-selected", !ask);
+  $("askPanel").classList.toggle("hidden", !ask); $("photoPanel").classList.toggle("hidden", ask);
+}
+
+$("tabAsk").onclick = () => selectTab("ask");
+$("tabPhoto").onclick = () => selectTab("photo");
+$("askBtn").onclick = doAsk;
+$("photoBtn").onclick = doDiagnose;
+$("photo").onchange = (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  state.photo = f;
+  $("preview").src = URL.createObjectURL(f); $("preview").classList.remove("hidden");
+  $("dropText").classList.add("hidden"); $("photoBtn").disabled = false;
+};
+$("net").onclick = async () => {
+  const forced = !(state.status?.forced_offline);
+  await api("/api/offline", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ forced }) });
+  refreshStatus();
+};
+$("flushBtn").onclick = async () => {
+  $("flushBtn").disabled = true;
+  try {
+    const r = await api("/api/queue/flush", { method: "POST" });
+    $("queueDone").innerHTML = (r.sent || []).map((x) => `<li>${esc(x.error ? `Not sent: ${x.error}` : (x.answer || x.label_name))}</li>`).join("") || `<li>${esc(r.message || "Nothing to send.")}</li>`;
+  } catch (e) { showError(e.message); }
+  refreshStatus();
+};
+
+refreshStatus();
+setInterval(refreshStatus, 8000);
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+data/cache/
+data/outbox/
+data/queue.sqlite3
+data/index/
+data/guides/*.pdf
+# FAO text extracts: FAO copyright, non-commercial reuse only. Each user extracts their own.
+data/guides/*.txt
+data/guides/sources.json
+bench/results/*_stub*
+# Datasets are downloaded by each user, never committed (licences: CCMT CC BY 4.0, PlantSeg CC BY-NC-ND 4.0)
+datasets/*
+!datasets/README.md
+# Model weights (GGUF), downloaded per machine
+models/
+# llama.cpp binaries, downloaded per machine
+llama.cpp/
+# Kaggle upload bundle (contains FAO guide text: keep the Kaggle dataset private)
+fieldwise_kaggle.zip

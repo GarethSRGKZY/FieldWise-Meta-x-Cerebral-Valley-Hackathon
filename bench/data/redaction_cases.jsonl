@@ -1,0 +1,35 @@
+{"id": "r01", "text": "Hello, my name is Kofi Mensah and my maize has holes in the leaves.", "pii": [{"kind": "NAME", "text": "Kofi Mensah"}], "keep": ["maize"]}
+{"id": "r02", "text": "This is Akosua Boateng from Techiman. The cassava leaves are yellow.", "pii": [{"kind": "NAME", "text": "Akosua Boateng"}, {"kind": "LOCATION", "text": "Techiman"}], "keep": ["cassava"]}
+{"id": "r03", "text": "Please call me back on +233 20 555 0142, the tomato plants are wilting.", "pii": [{"kind": "PHONE", "text": "+233 20 555 0142"}], "keep": ["tomato"]}
+{"id": "r04", "text": "My WhatsApp is 0245550199. Worms inside the maize whorl.", "pii": [{"kind": "PHONE", "text": "0245550199"}], "keep": ["maize whorl"]}
+{"id": "r05", "text": "Saya Ahmad bin Ismail dari Kampung Parit Raja. Daun jagung berlubang.", "pii": [{"kind": "NAME", "text": "Ahmad bin Ismail"}, {"kind": "LOCATION", "text": "Parit Raja"}], "keep": ["jagung"]}
+{"id": "r06", "text": "Encik Razak said the chilli leaves curl. Call 012-345 6789.", "pii": [{"kind": "NAME", "text": "Razak"}, {"kind": "PHONE", "text": "012-345 6789"}], "keep": ["chilli"]}
+{"id": "r07", "text": "Farm location 7.3349, -2.3123 near the river. Leaf spots everywhere.", "pii": [{"kind": "GPS", "text": "7.3349, -2.3123"}], "keep": ["Leaf spots"]}
+{"id": "r08", "text": "My IC is 850212-10-5523 if the officer needs it. Tomato blight question.", "pii": [{"kind": "ID", "text": "850212-10-5523"}], "keep": ["Tomato"]}
+{"id": "r09", "text": "Email me at ama.owusu@gmail.com with the answer about mosaic disease.", "pii": [{"kind": "EMAIL", "text": "ama.owusu@gmail.com"}], "keep": ["mosaic disease"]}
+{"id": "r10", "text": "I live in Ejura and farm near Nkoranza. Fall armyworm again this season.", "pii": [{"kind": "LOCATION", "text": "Ejura"}, {"kind": "LOCATION", "text": "Nkoranza"}], "keep": ["Fall armyworm"]}
+{"id": "r11", "text": "My neighbour Yaw Darko has the same problem with grasshoppers.", "pii": [{"kind": "NAME", "text": "Yaw Darko"}], "keep": ["grasshoppers"]}
+{"id": "r12", "text": "The guide says mix 10 ml in 15 litres. Is that right for 2 acres?", "pii": [], "keep": ["10 ml", "15 litres", "2 acres"]}
+{"id": "r13", "text": "Planted on 03/05/2026, spacing 75 cm by 25 cm, about 53000 plants per hectare.", "pii": [], "keep": ["03/05/2026", "75 cm", "53000 plants"]}
+{"id": "r14", "text": "In March the leaves of my Maize turned yellow in streaks.", "pii": [], "keep": ["March", "Maize"]}
+{"id": "r15", "text": "Puan Siti Nurhaliza binti Abdullah, Jalan Kebun 3, Taman Sri Muda. Padi leaves have brown spots.", "pii": [{"kind": "NAME", "text": "Siti Nurhaliza binti Abdullah"}, {"kind": "ADDRESS", "text": "Jalan Kebun 3"}], "keep": ["Padi"]}
+{"id": "r16", "text": "P.O. Box 214, Sunyani. Cassava green mite?", "pii": [{"kind": "ADDRESS", "text": "P.O. Box 214"}], "keep": ["Cassava green mite"]}
+{"id": "r17", "text": "Ghana card GHA-712345678-9, I registered with the extension office.", "pii": [{"kind": "ID", "text": "GHA-712345678-9"}], "keep": ["extension office"]}
+{"id": "r18", "text": "Contact Mama Esi at the market if you need samples of the leaves.", "pii": [{"kind": "NAME", "text": "Esi"}], "keep": ["leaves"]}
+{"id": "r19", "text": "hi im kwame from wenchi, maize leaves have holes", "pii": [{"kind": "NAME", "text": "kwame"}, {"kind": "LOCATION", "text": "wenchi"}], "keep": ["maize"], "note": "HARD: all lowercase, no capitals to anchor on"}
+{"id": "r20", "text": "Abena told me to spray, but I want to check the guide first.", "pii": [{"kind": "NAME", "text": "Abena"}], "keep": ["spray"], "note": "HARD: name with no trigger word"}
+{"id": "r21", "text": "Kumasi farmers are all seeing this leaf blight.", "pii": [{"kind": "LOCATION", "text": "Kumasi"}], "keep": ["leaf blight"], "note": "HARD: place at sentence start, no trigger"}
+{"id": "r22", "text": "Reach me: two four five, five five five, zero one nine nine.", "pii": [{"kind": "PHONE", "text": "two four five, five five five, zero one nine nine"}], "keep": [], "note": "HARD: number spelled out"}
+{"id": "r23", "text": "Plot 14 behind the Methodist church, Odumase. Tomato leaf curl.", "pii": [{"kind": "LOCATION", "text": "Odumase"}], "keep": ["Tomato leaf curl"], "note": "HARD: place after a comma"}
+{"id": "r24", "text": "I am Dr. Lim Wei Ming at the Kluang station, phone 07-772 1234.", "pii": [{"kind": "NAME", "text": "Lim Wei Ming"}, {"kind": "PHONE", "text": "07-772 1234"}], "keep": []}
+{"id": "r25", "text": "Ask for Uncle Kojo at Asante Akim, he grows cashew.", "pii": [{"kind": "NAME", "text": "Kojo"}, {"kind": "LOCATION", "text": "Asante Akim"}], "keep": ["cashew"]}
+{"id": "r26", "text": "Our cooperative in Brong Ahafo region has 40 members with sick cassava.", "pii": [{"kind": "LOCATION", "text": "Brong Ahafo"}], "keep": ["40 members", "cassava"]}
+{"id": "r27", "text": "Mobile 0201234567 or 0549876543, either works.", "pii": [{"kind": "PHONE", "text": "0201234567"}, {"kind": "PHONE", "text": "0549876543"}], "keep": []}
+{"id": "r28", "text": "Field at 6°41'18\"N 1°37'27\"W has armyworm.", "pii": [{"kind": "GPS", "text": "6°41'18\"N"}], "keep": ["armyworm"]}
+{"id": "r29", "text": "Sorry for my English, I am Ibrahim Musah. The maize tassels are damaged.", "pii": [{"kind": "NAME", "text": "Ibrahim Musah"}], "keep": ["maize tassels"]}
+{"id": "r30", "text": "@kofi_farms on Facebook posted photos of the same pest.", "pii": [{"kind": "NAME", "text": "@kofi_farms"}], "keep": ["pest"], "note": "HARD: social media handle"}
+{"id": "r31", "text": "How long should I wait after spraying before harvest?", "pii": [], "keep": ["spraying", "harvest"]}
+{"id": "r32", "text": "Should I remove the plants with mosaic, Madam?", "pii": [], "keep": ["mosaic", "Madam"]}
+{"id": "r33", "text": "My wife Adwoa found eggs under the maize leaves this morning.", "pii": [{"kind": "NAME", "text": "Adwoa"}], "keep": ["maize leaves", "morning"]}
+{"id": "r34", "text": "I'm Grace, from Kintampo North. Yellow streaks on maize.", "pii": [{"kind": "NAME", "text": "Grace"}, {"kind": "LOCATION", "text": "Kintampo North"}], "keep": ["Yellow streaks"]}
+{"id": "r35", "text": "Send the answer to 60123456789 on WhatsApp please.", "pii": [{"kind": "PHONE", "text": "60123456789"}], "keep": []}

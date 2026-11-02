@@ -1,0 +1,40 @@
+[NAME: yaw] here, call [PHONE: 024 498 7654], my {cassava} in [PLACE: Ejura] is yellow.
+[NAME: kwame] here, my {maize} leaves in [PLACE: Kumasi] have brown spots, reach me on [PHONE: 055 123 4567].
+[NAME: ama] here in [PLACE: Tamale], the {goats} are not eating properly, please call [PHONE: 020 987 6543].
+My name is [NAME: kofi], I farm {tomatoes} at [PLACE: Techiman] and the fruits are rotting before harvest, [PHONE: 024 567 8901].
+[NAME: akosua] from [PLACE: Sunyani] here, insects are eating my {cabbage} leaves, call me [PHONE: 054 321 0987].
+Good morning, this is [NAME: kwadwo] in [PLACE: Ho], my {rice} field is flooded after the heavy rain, phone [PHONE: 027 123 4567].
+[NAME: efua] here from [PLACE: Cape Coast], my {pepper plants} are drying up even though I water them, [PHONE: 050 987 1234].
+Please help me, I'm [NAME: kwabena] from [PLACE: Bolgatanga] and my {groundnuts} have many holes in the leaves, call [PHONE: 024 111 2233].
+[NAME: adwoa] from [PLACE: Koforidua], my {cocoa trees} have black patches on the pods, contact me [PHONE: 055 678 1234].
+Hello, I'm [NAME: kwesi] in [PLACE: Wa], the {chickens} are coughing and some are dying, my number is [PHONE: 020 456 7891].
+[NAME: esi] here, I grow {okra} in [PLACE: Mampong] but the leaves are curling, call [PHONE: 054 678 9123].
+My name is [NAME: nana], from [PLACE: Berekum], {weeds} are taking over my {yam} farm, please reach me on [PHONE: 024 765 4321].
+[NAME: akua] from [PLACE: Obuasi] here, my {plantain} leaves are turning brown and splitting, [PHONE: 050 123 9876].
+Hello, I'm [NAME: kojo] in [PLACE: Nsawam], my {orange trees} are dropping fruits before they ripen, call [PHONE: 027 654 3210].
+[NAME: abena] here from [PLACE: Dormaa], my {pigs} have sores on their skin and are not growing well, [PHONE: 055 987 6543].
+This is [NAME: yaw] from [PLACE: Wenchi], my {beans} are growing slowly and the leaves look pale, phone [PHONE: 020 123 4567].
+[NAME: maa] here in [PLACE: Accra], the {soil} in my {vegetable farm} is too dry and the {seedlings} are dying, call [PHONE: 024 321 6789].
+Hello, my name is [NAME: osei], I farm {onions} in [PLACE: Navrongo] and they are rotting underground, [PHONE: 054 123 7890].
+[NAME: yaa] from [PLACE: Akim Oda], ants and other {pests} are destroying my {cocoa seedlings}, contact [PHONE: 027 987 6543].
+Good afternoon, I'm [NAME: kwame] from [PLACE: Kintampo], my {cassava roots} are small and the leaves have yellow patches, call [PHONE: 050 765 4321].
+[NAME: kwame] from [PLACE: Ashanti Mampong] here, my {cocoa} leaves are turning yellow and falling off, please call [PHONE: 024 567 1234].
+Good morning, I'm [NAME: akua] in [PLACE: Offinso], something is eating the roots of my {maize} plants, contact me on [PHONE: 055 234 6789].
+[NAME: kwabena] here from [PLACE: Savelugu], my {millet} is not growing well because the soil is too dry, call [PHONE: 020 345 6789].
+Hello, this is [NAME: ama] from [PLACE: Axim], my {coconut trees} have brown leaves and some fruits are falling early, [PHONE: 024 876 5432].
+[NAME: kofi] in [PLACE: Kintampo] here, there are small worms destroying my {tomato} fruits, please reach me at [PHONE: 050 234 5678].
+My name is [NAME: abena], I farm {watermelon} in [PLACE: Paga] but the fruits are cracking before they mature, call [PHONE: 027 345 6789].
+[NAME: yaw] from [PLACE: Atebubu], my {cowpea} leaves have white insects underneath, what can I do? [PHONE: 024 345 6789].
+Hello, I'm [NAME: efua] in [PLACE: Tarkwa], my {plantain} farm has many weeds and the plants are growing slowly, call [PHONE: 055 456 7890].
+[NAME: kojo] here from [PLACE: Dunkwa-on-Offin], my {cocoa pods} are getting black and falling from the trees, [PHONE: 020 567 8901].
+Good afternoon, this is [NAME: adwoa] from [PLACE: Yendi], my {sheep} are losing weight and refusing to eat, please call [PHONE: 024 678 9012].
+[NAME: nana] in [PLACE: Bawku] here, the {sorghum} in my field is being destroyed by birds before harvest, contact [PHONE: 054 234 5678].
+I'm [NAME: esi] from [PLACE: Elmina], my {lettuce} leaves have holes and are becoming weak, can someone help? [PHONE: 027 456 7890].
+[NAME: kwesi] here in [PLACE: Kpando], my {fish} in the pond are coming to the surface and dying, call me on [PHONE: 050 345 6789].
+Hello, I'm [NAME: akosua] from [PLACE: Assin Fosu], my {sweet potatoes} have damaged roots and the leaves are wilting, [PHONE: 024 789 0123].
+[NAME: osei] in [PLACE: Bimbilla], my {groundnut} plants are drying up even though we had rain last week, please contact [PHONE: 055 567 8901].
+This is [NAME: yaa] from [PLACE: Kade], my {pineapple} plants have strange spots on their leaves, what treatment should I use? [PHONE: 020 678 9012].
+[NAME: kwadwo] here from [PLACE: Buipe], my {cattle} are developing wounds around their mouths, please advise me, [PHONE: 024 890 1234].
+Good morning, I'm [NAME: abraham] in [PLACE: Agogo], my {cucumber} plants have flowers but the fruits are not developing, call [PHONE: 054 678 1234].
+[NAME: comfort] from [PLACE: Somanya], my {garden eggs} are being attacked by insects and the leaves are curling, [PHONE: 027 567 8901].
+Hello, this is [NAME: daniel] in [PLACE: Fomena], my {poultry} birds are dying suddenly and I don't know what is happening, call [PHONE: 050 456 7891].

@@ -1,0 +1,16 @@
+image,instances,iou,gt_lesion_pct_of_image,pred_lesion_pct_of_image,abs_error_pts,mean_conf,cached,leaf_pct_of_image,severity_pred_pct,severity_gt_pct,severity_abs_error_pts
+corn_gray_leaf_spot_google_0020,1,0.429,38.7,19.62,19.08,0.801,True,82.82,23.69,45.53,21.84
+corn_gray_leaf_spot_42,0,0.0,54.99,0.0,54.99,,True,0.0,,,
+corn_gray_leaf_spot_31,8,0.1664,7.51,40.31,32.8,0.788,True,47.7,84.51,15.21,69.3
+corn_gray_leaf_spot_35,15,0.5908,14.66,23.41,8.75,0.637,True,24.27,96.47,58.73,37.74
+corn_gray_leaf_spot_google_0168,1,0.407,98.23,40.2,58.03,0.559,True,49.19,81.71,99.68,17.97
+corn_gray_leaf_spot_google_0015,2,0.257,4.07,9.01,4.94,0.894,True,32.92,27.38,12.32,15.06
+corn_gray_leaf_spot_google_0270,6,0.3564,15.19,30.62,15.42,0.91,True,52.59,58.22,28.28,29.94
+corn_gray_leaf_spot_google_0089,11,0.2843,42.66,36.05,6.61,0.661,True,69.27,52.04,59.98,7.94
+corn_gray_leaf_spot_google_0061,8,0.3031,16.58,50.75,34.17,0.699,True,58.67,86.5,27.97,58.53
+corn_gray_leaf_spot_google_0066,3,0.1929,4.77,23.69,18.92,0.646,True,40.77,58.1,11.65,46.45
+corn_gray_leaf_spot_google_0024,4,0.6529,30.58,36.24,5.66,0.956,True,50.43,71.86,59.83,12.03
+corn_gray_leaf_spot_google_0047,2,0.1961,7.81,35.64,27.83,0.895,True,75.15,47.42,9.53,37.89
+corn_gray_leaf_spot_google_0074,1,0.1835,7.23,19.35,12.12,0.714,True,95.07,20.35,4.51,15.84
+corn_gray_leaf_spot_google_0050,5,0.5422,25.56,35.96,10.4,0.691,True,47.63,75.51,52.78,22.73
+corn_gray_leaf_spot_google_0081,4,0.6876,78.59,58.62,19.97,0.765,True,80.74,72.6,96.06,23.46

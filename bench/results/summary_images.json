@@ -1,0 +1,82 @@
+{
+  "task": "images",
+  "threshold_chosen_on_dev": 0.05,
+  "threshold_rule": "most on-device threshold within 2.0 accuracy points of best dev accuracy",
+  "dev": {
+    "n": 60,
+    "dropped": {
+      "local_error": 0,
+      "missing_cloud": 0
+    }
+  },
+  "test": {
+    "n": 144,
+    "dropped": {
+      "local_error": 0,
+      "missing_cloud": 0
+    }
+  },
+  "glimmer_only": {
+    "n": 144,
+    "correct": 80,
+    "accuracy": 0.5555555555555556,
+    "ci95": [
+      0.47399938221692756,
+      0.6342245547534517
+    ],
+    "latency_mean_s": 12.682628812576443,
+    "latency_median_s": 12.641112726500069,
+    "latency_p90_s": 16.256876856500458,
+    "cost_per_query_usd": 0.0
+  },
+  "spark_only": {
+    "n": 144,
+    "correct": 96,
+    "accuracy": 0.6666666666666666,
+    "ci95": [
+      0.5862234638042094,
+      0.7384483471069279
+    ],
+    "latency_mean_s": 5.137854288888674,
+    "latency_median_s": 4.311643100001675,
+    "latency_p90_s": 9.636665459997312,
+    "cost_per_query_usd": 0.004111499305555554
+  },
+  "routed": {
+    "n": 144,
+    "correct": 87,
+    "accuracy": 0.6041666666666666,
+    "ci95": [
+      0.5225833437386467,
+      0.6803365380808142
+    ],
+    "latency_mean_s": 13.59788848757676,
+    "latency_median_s": 12.868781867000052,
+    "latency_p90_s": 19.13929332650469,
+    "cost_per_query_usd": 0.0006837211805555556,
+    "on_device_share": 0.8541666666666666,
+    "cloud_failures": 0
+  },
+  "confidence_quality_test": {
+    "auroc": 0.764453125,
+    "ece_10bin": 0.29861108373368234,
+    "source_counts": {
+      "logprobs": 144
+    }
+  },
+  "abstentions_test": {
+    "glimmer": 21,
+    "spark": 24
+  },
+  "manual_grades_applied": 0,
+  "spark_content_filter_blocks": {
+    "dev": [],
+    "test": [],
+    "scored_as": "no answer: the app shows the extension-officer referral (images: 'Unsure')"
+  },
+  "notes": [
+    "Routed results are replayed per item from independent Glimmer and Spark runs.",
+    "Cost per query counts Meta Model API spend only (Spark tokens at Standard-mode prices).",
+    "Latency for routed = Glimmer latency + Spark latency when escalated."
+  ]
+}

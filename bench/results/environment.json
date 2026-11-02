@@ -1,0 +1,33 @@
+{
+  "utc": "2026-10-28T16:36:44+00:00",
+  "python": "3.10.1",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "machine": "AMD64",
+  "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+  "cpu_count": 12,
+  "glimmer": {
+    "base_url": "http://127.0.0.1:8080/v1",
+    "served_name": "muse-glimmer",
+    "reasoning_strength": "low",
+    "max_tokens": 1536,
+    "seed": 7,
+    "probe_error": "[WinError 10061] No connection could be made because the target machine actively refused it"
+  },
+  "spark": {
+    "model": "muse-spark-1.3",
+    "reasoning_effort": "server default",
+    "usd_per_m": [
+      1.25,
+      0.15,
+      4.25
+    ]
+  },
+  "retrieval_k": 6,
+  "guide_chunks": 593,
+  "fill_in_by_hand": {
+    "device": "e.g. MacBook Pro M3 Pro, 36 GB unified memory",
+    "gguf_file": "",
+    "llama_cpp_build": "",
+    "network": "e.g. home fibre, Kuala Lumpur"
+  }
+}

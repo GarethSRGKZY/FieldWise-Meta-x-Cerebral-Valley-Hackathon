@@ -1,0 +1,7 @@
+image,instances,iou,gt_lesion_pct_of_image,pred_lesion_pct_of_image,abs_error_pts,mean_conf,cached,leaf_pct_of_image,severity_pred_pct,severity_gt_pct,severity_abs_error_pts
+corn_gray_leaf_spot_google_0172,1,0.7516,77.05,57.91,19.14,0.57,False,72.71,79.65,100.0,20.35
+corn_gray_leaf_spot_google_0035,2,0.5112,21.31,29.61,8.3,0.685,False,92.85,31.89,22.94,8.95
+corn_gray_leaf_spot_google_0145,1,0.1638,13.12,79.39,66.27,0.855,False,88.99,89.21,14.64,74.57
+corn_gray_leaf_spot_google_0293,2,0.7991,72.32,60.83,11.49,0.688,False,68.66,88.59,97.17,8.58
+corn_gray_leaf_spot_google_0053,35,0.5159,9.87,14.85,4.98,0.746,False,19.07,77.87,51.12,26.75
+corn_gray_leaf_spot_google_0014,10,0.324,3.89,4.34,0.45,0.757,False,51.59,8.41,7.51,0.9
