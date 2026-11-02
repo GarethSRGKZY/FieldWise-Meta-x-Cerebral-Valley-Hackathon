@@ -1,4 +1,5 @@
 # Fieldwise
+
 **Crop-protection advice that works without signal.** An offline-first assistant for smallholder farmers and the extension workers who support them, built on Meta's Muse Glimmer, Muse Spark and SAM 3.1.
 
 A farmer asks a question or photographs a leaf from any phone with a browser. The phone connects over local Wi-Fi to a **village hub**, one shared machine at the co-op or extension office, where **Muse Glimmer** answers from FAO extension guides with no internet, citing the guide page and showing how confident it is. Only when Glimmer is unsure does the hub remove personal details and send the case to **Muse Spark** in the cloud; with no signal, it waits in a queue. **SAM 3.1** outlines the leaf in a photo so the damaged tissue can be marked.
@@ -6,6 +7,7 @@ A farmer asks a question or photographs a leaf from any phone with a browser. Th
 On 87 held-out questions, routing answered **46% on the hub** and scored **82.8%**, against 83.9% for Glimmer alone and 79.3% for Spark alone, at **about half the cloud cost** per question.
 
 ## The problem
+
 Smallholder farmers often find a pest or disease when no extension officer is nearby, and mobile signal on farms comes and goes. A cloud-only assistant needs a good connection for every question, sends the farmer's words and photos (with names, phone numbers and GPS tags) off the phone, and a general-purpose model can state pesticide doses with no source.
 
 Fieldwise is designed the other way round:
@@ -38,9 +40,11 @@ Fieldwise is designed the other way round:
 Thresholds were chosen on the dev split: **0.90 for questions, 0.05 for photos**.
 
 ## Results
+
 All numbers are on held-out **test** splits; thresholds, retrieval settings and prompt phrases were chosen on dev data only. Accuracy has 95% Wilson intervals. Glimmer ran on a Kaggle notebook with 2× NVIDIA T4 (Meta's official Q4_K_M GGUF, same launcher and settings as the hub); Spark ran through the Meta Model API. Cost counts Meta API spend only, at Standard-mode prices.
 
 ### Questions (87 test questions, 75 answerable from the guides, 12 out of scope)
+
 | Setup | Accuracy (95% CI) | Answered on the hub | Latency median / p90 | API cost per question |
 |---|---|---|---|---|
 | Glimmer only | 83.9% (75–90) | 100% | 21.6 / 31.6 s (Kaggle T4) | $0 |
@@ -54,6 +58,7 @@ All numbers are on held-out **test** splits; thresholds, retrieval settings and 
 - Confidence quality: AUROC 0.63, ECE 0.160. The safety check removed an unsupported quantity once from each model.
 
 ### Leaf photos (144 test photos, 12 maize and cassava classes, CCMT field photos from Ghana)
+
 | Setup | Accuracy (95% CI) | Answered on the hub | Latency median / p90 | API cost per photo |
 |---|---|---|---|---|
 | Glimmer only | 55.6% (47–63) | 100% | 12.6 / 16.3 s (Kaggle T4) | $0 |
@@ -77,6 +82,7 @@ The accuracy / on-hub trade-off at every threshold is in `bench/results/tradeoff
 An earlier set of 20 developer-written messages exposed that **lowercase names were never caught (0/20)**: "my name is kofi", "ama here". The name rules were fixed using that set, so it no longer counts as a test (it now scores 100%). Remaining misses: a name with no introduction ("Abena told me…"), messages opening "*name* in *Place*", lowercase place names, and places at the start of a sentence. No set has yet been written by someone independent.
 
 ### Damage measurement: SAM 3.1
+
 Validated against PlantSeg's hand-drawn lesion masks for corn gray leaf spot.
 - **SAM 3.1 phrase prompts don't outline these lesions.** Eight phrases tried on validation photos (best: "brown patch", mean IoU 0.10). On 15 test photos, "brown patch" scored mean IoU 0.19 and found nothing on 6 of 15.
 - **"leaf" works well:** SAM 3.1 found the leaf on 6/6 CCMT dev photos and 14/15 PlantSeg test photos.
@@ -84,14 +90,17 @@ Validated against PlantSeg's hand-drawn lesion masks for corn gray leaf spot.
 - That missed the bar set before testing (median error ≤ 15 points), so **the app shows no percentage**: it shows SAM's leaf outline with off-colour areas marked as "areas to check". Not validated: yellow symptoms (streak, mosaic), cassava, insect damage. Insect damage isn't measured at all.
 
 ### Hardware
+
 Glimmer needs about 24 GB of memory. On the development laptop (16 GB RAM, 4 GB laptop GPU), community 3-bit builds read photo prompts at 0.5–1.4 tokens per second, and a 2-bit text-only build wrote about 0.1 tokens per second. None could answer within the app's 10-minute timeout, so Glimmer doesn't run live there. The benchmark and live demo use a Kaggle GPU instead; a real hub would be a shared 32 GB machine, for example an Apple-silicon laptop, or a PC with a 24 GB GPU.
 
 ### Failure cases found along the way
+
 - **Spark's content filter** refused ordinary farming questions (9 of 87 test questions). The API key was temporarily restricted after about a dozen refusals during the benchmark run (the likely cause), so the runner now stops after 3 refusals and the app pauses Spark after 2.
 - **SAM 3.1's live replies arrive only in the final stream event.** The first SAM run read nothing back (0 matches on 15/15) until the reader was rewritten to Meta's protocol; that run was discarded.
 - **Re-tuning that missed the bar:** tuning the damage colour cut-offs for overlap made the percentage worse (median error 35.7 points); tuning for the percentage itself improved it to 23.1, still not good enough to show.
 
 ## Run it
+
 ```bash
 pip install -r requirements.txt
 cp .env.example .env  # Windows: copy .env.example .env
@@ -174,6 +183,7 @@ Integrity rules built into the harness:
 </details>
 
 ## Repository layout
+
 ```
 app/          hub server (FastAPI) and the phone UI (one HTML file + Poppins fonts)
 fieldwise/    pipeline: redact, retrieval, confidence, router, safety, queue, lesions, replay
@@ -186,6 +196,7 @@ datasets/     CCMT and PlantSeg datasets (not committed)
 ```
 
 ## Data and licences
+
 Scope: **maize and cassava** (12 photo classes), the crops with FAO guides that have clear reuse terms. Tomato is defined but switched off until a licensed guide covers its classes.
 
 | Source | Used for | Licence / terms |
@@ -201,6 +212,7 @@ Scope: **maize and cassava** (12 photo classes), the crops with FAO guides that 
 Datasets, guide text and model weights are not included in this repository.
 
 ## Limitations
+
 - **Hardware:** a hub needs about 24 GB of memory; on smaller machines Glimmer can't answer in reasonable time.
 - **Retrieval caps answer quality** at about 85% of test questions; when BM25 misses the passage, the honest answer is a referral.
 - **Photo diagnosis is weaker than Spark's** (55.6% vs 66.7%) and Glimmer's photo confidence is over-confident (ECE 0.299).
@@ -212,6 +224,6 @@ Datasets, guide text and model weights are not included in this repository.
 - **The question set was drafted by an AI assistant** (Claude, by Anthropic) from the guide text and reviewed by the developer; questions written this way may be easier than real farmer questions.
 
 ## Acknowledgements and disclosures
+
 - FAO for the extension guides; Mensah et al. for CCMT; Wei et al. for PlantSeg; Meta for Muse Glimmer, Muse Spark and SAM 3.1; the llama.cpp project; the Poppins authors.
-- Built for the Meta × Cerebral Valley Global AI Developer Hackathon 2026. Developed with Claude as a coding assistant, which also drafted the benchmark question set.#   F i e l d W i s e - M e t a - x - C e r e b r a l - V a l l e y - H a c k a t h o n  
- 
+- Built for the Meta × Cerebral Valley Global AI Developer Hackathon 2026. Developed with Claude as a coding assistant, which also drafted the benchmark question set.
