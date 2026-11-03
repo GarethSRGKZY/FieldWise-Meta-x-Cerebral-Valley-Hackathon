@@ -101,7 +101,10 @@
   .lede { margin-top: 14px; color: var(--ink-soft); font-size: clamp(.98rem, .9rem + .3vw, 1.08rem); max-width: 62ch; }
 
   /* ---------- two columns ---------- */
-  .layout { display: grid; gap: 20px; align-items: start; }
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
+  .col-in, .col-out { min-width: 0; }
+  /* guide text can hold long unbroken runs (dotted contents lines): wrap them instead of widening the page */
+  .answer, .source blockquote, .source cite, .route-caption, .detail, .flags li, .queue ul { overflow-wrap: anywhere; }
   @media (min-width: 960px) { .layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 28px; } }
   .card { background: var(--card); border: 1.5px solid var(--rule); border-radius: var(--r-lg); padding: clamp(18px, 2.5vw, 28px); min-width: 0; }
 
@@ -218,7 +221,13 @@
   .queue p { margin: 0 0 12px; font-weight: 500; }
   .queue .secondary { background: var(--night); color: var(--night-ink); }
   :root[data-theme="dark"] .queue .secondary { background: #0A2C24; color: #EAF2EC; }
-  .queue ul { margin: 12px 0 0; padding-left: 18px; font-size: .92rem; }
+  .queue ul { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 10px; font-size: .93rem; }
+  .queue ul:empty { display: none; }
+  .queue li { background: rgba(255, 255, 255, .62); border-radius: 20px; padding: 12px 16px; }
+  .queue li .q { display: block; font-size: .84rem; opacity: .8; margin-bottom: 4px; }
+  .queue li .a { display: block; white-space: pre-line; }
+  .queue li .by { display: block; font-size: .78rem; opacity: .75; margin-top: 6px; }
+  .queue .row-btns { display: flex; flex-wrap: wrap; gap: 10px; }
 
   .foot { margin-top: 28px; padding-top: 16px; border-top: 1.5px solid var(--rule); font-size: .82rem; color: var(--ink-soft); display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: space-between; }
   .foot b { color: var(--ink); font-weight: 600; }
@@ -232,6 +241,7 @@
     .modes button { flex: 1; padding: 0 10px; font-size: .92rem; }
     .net { padding: 0 12px; font-size: .9rem; }
     .hero { margin: 22px 0 18px; }
+    .lede { display: none; }   /* the "how it works" panel says the same; keeps the question box near the top */
     .card { border-radius: 22px; }
     .intro { border-radius: 22px; }
   }
@@ -303,7 +313,10 @@
 
       <section class="queue hidden" id="queue">
         <p id="queueText"></p>
-        <button class="secondary" id="flushBtn" type="button">Send queued questions now</button>
+        <div class="row-btns">
+          <button class="secondary" id="flushBtn" type="button">Send queued questions now</button>
+          <button class="secondary hidden" id="queueClose" type="button">Close</button>
+        </div>
         <ul id="queueDone"></ul>
       </section>
     </div>
@@ -380,10 +393,15 @@ async function refreshStatus() {
     if (!$("crop").options.length) {
       $("crop").innerHTML = s.crops.map((c) => `<option value="${c}">${c[0].toUpperCase() + c.slice(1)}</option>`).join("");
     }
-    const n = s.queue_pending;
-    $("queue").classList.toggle("hidden", n === 0);
-    $("queueText").textContent = `${n} ${n === 1 ? "question is" : "questions are"} waiting for a second opinion from Muse Spark.`;
+    const n = s.queue_pending, delivered = $("queueDone").children.length > 0;
+    // Stay open while something waits, or while Spark's answers are on screen (until "Close").
+    $("queue").classList.toggle("hidden", n === 0 && !delivered);
+    $("queueText").textContent = n > 0
+      ? `${n} ${n === 1 ? "question is" : "questions are"} waiting for a second opinion from Muse Spark.`
+      : "Second opinions from Muse Spark:";
+    $("flushBtn").classList.toggle("hidden", n === 0);
     $("flushBtn").disabled = !s.online;
+    $("queueClose").classList.toggle("hidden", !delivered);
     const downMsg = `Muse Glimmer isn't available on the hub: ${s.glimmer_detail || "not running."} Until then, questions go to Muse Spark when online, or wait in the queue when offline.`;
     if (!s.glimmer_up) { showError(downMsg); state.downMsg = downMsg; }
     else if (state.downMsg && $("error").textContent === state.downMsg) { showError(""); state.downMsg = null; }
@@ -565,10 +583,16 @@ $("flushBtn").onclick = async () => {
   $("flushBtn").disabled = true;
   try {
     const r = await api("/api/queue/flush", { method: "POST" });
-    $("queueDone").innerHTML = (r.sent || []).map((x) => `<li>${esc(x.error ? `Not sent: ${x.error}` : (x.answer || x.label_name))}</li>`).join("") || `<li>${esc(r.message || "Nothing to send.")}</li>`;
+    $("queueDone").innerHTML = (r.sent || []).map((x) => {
+      const q = x.question ? `<span class="q">Sent: ${esc(x.question)}</span>` : (x.photo ? `<span class="q">Sent: a leaf photo (no GPS)</span>` : "");
+      const a = x.error ? `Not sent: ${esc(x.error)}` : esc(x.answer || x.label_name);
+      const by = !x.error && x.answered_by ? `<span class="by">${esc(x.answered_by)}</span>` : "";
+      return `<li>${q}<span class="a">${a}</span>${by}</li>`;
+    }).join("") || `<li><span class="a">${esc(r.message || "Nothing to send.")}</span></li>`;
   } catch (e) { showError(e.message); }
   refreshStatus();
 };
+$("queueClose").onclick = () => { $("queueDone").innerHTML = ""; refreshStatus(); };
 
 refreshStatus();
 setInterval(refreshStatus, 8000);

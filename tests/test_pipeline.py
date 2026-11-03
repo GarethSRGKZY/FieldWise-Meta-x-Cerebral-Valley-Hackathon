@@ -85,6 +85,7 @@ def test_low_confidence_offline_is_queued_then_flushed(tmp_path):
     connectivity._state.update(checked=1e18, online=True)  # pretend the probe succeeded
     done = app.flush_queue()
     assert done and "error" not in done[0]
+    assert "[NAME]" in done[0]["question"] and "Kofi" not in done[0]["question"]   # the UI shows what was sent
     sent = json.dumps(rec.bodies)
     assert "Kofi" not in sent and "0241234567" not in sent
     assert app.queue.pending() == []

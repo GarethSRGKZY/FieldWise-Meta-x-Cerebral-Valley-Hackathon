@@ -406,19 +406,21 @@ class Fieldwise:
                     text = rep.text if rep else ""
                     if not cloud["supported"] or not text:
                         text = (text + "\n\n" if text else "") + REFERRAL
-                    result = {"answer": text, "answered_by": f"Muse Spark ({cloud['model']}, cloud)",
+                    result = {"question": p["question"], "answer": text,          # the redacted copy that was sent
+                              "answered_by": f"Muse Spark ({cloud['model']}, cloud)",
                               "cost_usd": cloud["cost_usd"], "flags": rep.flags if rep else []}
                 else:
                     jpeg = open(p["image_path"], "rb").read()
                     cloud = self.cloud_dx(jpeg, p["crop"], p.get("note") or None)
                     lab = LABELS.get(cloud["label"]) if cloud["label"] else None
-                    result = {"label": cloud["label"], "label_name": lab.name if lab else "Unsure",
+                    result = {"photo": True, "label": cloud["label"], "label_name": lab.name if lab else "Unsure",
                               "answered_by": f"Muse Spark ({cloud['model']}, cloud)", "cost_usd": cloud["cost_usd"]}
                 self.queue.mark(item["id"], "done", result)
                 done.append({"id": item["id"], **result})
             except SparkBlocked as e:
                 self.queue.mark(item["id"], "blocked", {"error": str(e)})
-                done.append({"id": item["id"], "error": "Muse Spark's content filter declined it; ask your extension officer."})
+                done.append({"id": item["id"], "question": p.get("question"),
+                             "error": "Muse Spark's content filter declined it; ask your extension officer."})
             except (SparkUnavailable, OSError) as e:
                 self.queue.bump(item["id"])
                 done.append({"id": item["id"], "error": str(e)})
